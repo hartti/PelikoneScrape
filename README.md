@@ -23,3 +23,12 @@ CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE
 CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE
 CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
 ```
+
+## Clean the database
+
+Delete CLubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
+```
+MATCH (c:Club)
+WHERE NOT (c)-[:BELONGS_TO]-(:Team)
+DETACH DELETE c
+```
