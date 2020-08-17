@@ -18,8 +18,8 @@ First rudimentary version of a scraper to scrape pelikone data to a Neo4J instan
 
 ## Database
 
-'''
+```
 CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE
 CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE
 CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
-'''
+```
