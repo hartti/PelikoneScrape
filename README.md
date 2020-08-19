@@ -24,6 +24,20 @@ CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE
 CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
 ```
 
+## Imprt the CSV files
+
+```
+LOAD CSV FROM 'file:///clubs.csv' AS row
+MERGE (c:Club {name: row[0], id: row[1], url: row[2]})
+
+LOAD CSV FROM 'file:///teams.csv' AS row
+MERGE (t:Team {name: row[0], season: row[1], series: row[2], id: row[3], url: row[4]})
+WITH row, t
+MATCH (c:Club) WHERE c.id = row[5]
+MERGE (t)-[:BELONGS_TO]->(c)
+```
+
+
 ## Clean the database
 
 Delete CLubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
