@@ -46,3 +46,27 @@ MATCH (c:Club)
 WHERE NOT (c)-[:BELONGS_TO]-(:Team)
 DETACH DELETE c
 ```
+
+## Data cleanup
+
+match (t:Team)-[]->(c:Club) where c.id = "172"
+match (c2:Club) where c2.id = "5"
+with t, c, c2
+merge (t)-[:BELONGS_TO]->(c2)
+detach del
+
+77 & 70
+82 & 160
+21 & 160
+14 & 160
+111 & 96
+169 & 58
+121 & 58
+74 & 37
+104 & 37
+173 & 113
+107 & 114
+163 & 114
+168 & 141
+126 & 46
+18 & 108
