@@ -40,12 +40,19 @@ LOAD CSV FROM 'file:///players.csv' AS row
 MERGE (p:Player {name: row[0], altName: row[1], id: row[2], url: row[3]})
 
 LOAD CSV FROM 'file:///rosters.csv' AS row
-MATCH (t:Team), (p:Player) WHERE t.name = row[3] AND t.season = row[1] AND t.series = row[2] AND p.id = row[0]
+MERGE (t:Team {name: row[3], season: row[1], series: row[2]})
+WITH t, row
+MATCH (p:Player) WHERE p.id = row[0]
 MERGE (p)-[:PLAYS_FOR]->(t)
-
 ```
 
+Note, that this approach does not work as the previous CSV imports do not create those
 
+```
+LOAD CSV FROM 'file:///rosters.csv' AS row
+MATCH (t:Team), (p:Player) WHERE t.name = row[3] AND t.season = row[1] AND t.series = row[2] AND p.id = row[0]
+MERGE (p)-[:PLAYS_FOR]->(t)
+```
 ## Clean the database
 
 Delete Clubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
@@ -92,8 +99,8 @@ DETACH DELETE c
 
 Add countries
 ```
-MATCH (c:Club) MATCH c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia"
-MATCH (c:Club) MATCH c.id IN ["91","174","154"] SET c.country = "Estonia"
-MATCH (c:Club) MATCH c.id IN ["141"] SET c.country = "Latvia"
-MATCH (c:Club) MATCH NOT EXISTS(c.country) SET c.country = "Finland"
+MATCH (c:Club) WHERE c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia"
+MATCH (c:Club) WHERE c.id IN ["91","174","154"] SET c.country = "Estonia"
+MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia"
+MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland"
 ```
