@@ -47,13 +47,13 @@ WHERE NOT (c)-[:BELONGS_TO]-(:Team)
 DETACH DELETE c
 ```
 
-## Data cleanup
+Execute the following query for all number pairs listed below. This consolidates the same clubs created with different names.
 ```
 match (t:Team)-[]->(c:Club) where c.id = "172"
 match (c2:Club) where c2.id = "5"
 with t, c, c2
 merge (t)-[:BELONGS_TO]->(c2)
-detach del
+detach delete c
 
 77 & 70
 82 & 160
