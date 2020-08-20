@@ -48,7 +48,7 @@ DETACH DELETE c
 ```
 
 ## Data cleanup
-
+```
 match (t:Team)-[]->(c:Club) where c.id = "172"
 match (c2:Club) where c2.id = "5"
 with t, c, c2
@@ -70,3 +70,14 @@ detach del
 168 & 141
 126 & 46
 18 & 108
+159 & 144
+166 & 144
+112 & 144
+109 & 91
+122 & 91
+119 & 91
+161 & 17
+118 & 90
+162 & 90
+150 & 117
+```
