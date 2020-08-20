@@ -35,12 +35,20 @@ MERGE (t:Team {name: row[0], season: row[1], series: row[2], id: row[3], url: ro
 WITH row, t
 MATCH (c:Club) WHERE c.id = row[5]
 MERGE (t)-[:BELONGS_TO]->(c)
+
+LOAD CSV FROM 'file:///players.csv' AS row
+MERGE (p:Player {name: row[0], altName: row[1], id: row[2], url: row[3]})
+
+LOAD CSV FROM 'file:///rosters.csv' AS row
+MATCH (t:Team), (p:Player) WHERE t.name = row[3] AND t.season = row[1] AND t.series = row[2] AND p.id = row[0]
+MERGE (p)-[:PLAYS_FOR]->(t)
+
 ```
 
 
 ## Clean the database
 
-Delete CLubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
+Delete Clubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
 ```
 MATCH (c:Club)
 WHERE NOT (c)-[:BELONGS_TO]-(:Team)
@@ -49,11 +57,11 @@ DETACH DELETE c
 
 Execute the following query for all number pairs listed below. This consolidates the same clubs created with different names.
 ```
-match (t:Team)-[]->(c:Club) where c.id = "172"
-match (c2:Club) where c2.id = "5"
-with t, c, c2
-merge (t)-[:BELONGS_TO]->(c2)
-detach delete c
+MATCH (t:Team)-[]->(c:Club) WHERE c.id = "172"
+MATCH (c2:Club) WHERE c2.id = "5"
+WITH t, c, c2
+MERGE (t)-[:BELONGS_TO]->(c2)
+DETACH DELETE c
 
 77 & 70
 82 & 160
@@ -84,8 +92,8 @@ detach delete c
 
 Add countries
 ```
-match (c:Club) where c.id in ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] set c.country = "Russia"
-match (c:Club) where c.id in ["91","174","154"] set c.country = "Estonia"
-match (c:Club) where c.id in ["141"] set c.country = "Latvia"
-match (c:Club) where not exists(c.country) set c.country = "Finland"
+MATCH (c:Club) MATCH c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia"
+MATCH (c:Club) MATCH c.id IN ["91","174","154"] SET c.country = "Estonia"
+MATCH (c:Club) MATCH c.id IN ["141"] SET c.country = "Latvia"
+MATCH (c:Club) MATCH NOT EXISTS(c.country) SET c.country = "Finland"
 ```
