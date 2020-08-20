@@ -104,3 +104,9 @@ MATCH (c:Club) WHERE c.id IN ["91","174","154"] SET c.country = "Estonia"
 MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia"
 MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland"
 ```
+
+# Some interesting queries
+
+Find players, who have represented the most clubs
+match (p:Player)-[r]-(:Team)--(c:Club) return p.name, count(distinct c) order by count(distinct c) desc limit 10
+
