@@ -81,3 +81,11 @@ detach delete c
 162 & 90
 150 & 117
 ```
+
+Add countries
+```
+match (c:Club) where c.id in ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] set c.country = "Russia"
+match (c:Club) where c.id in ["91","174","154"] set c.country = "Estonia"
+match (c:Club) where c.id in ["141"] set c.country = "Latvia"
+match (c:Club) where not exists(c.country) set c.country = "Finland"
+```
