@@ -16,12 +16,19 @@ https://github.com/scinfu/SwiftSoup.git
 
 First rudimentary version of a scraper to scrape pelikone data to a Neo4J instance
 
-## Database
+## Prep Database
 
 ```
 CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE
 CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE
 CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
+
+UNWIND range(1999, 2021) as id
+CREATE (a:Year {id:id})
+
+CREATE (:Season {name: "Indoor"}),(:Season {name: "Outdoor"}),(:Season {name: "Beach"}) 
+
+CREATE (:Series {name: "Open"}),(:Series {name: "Women"}),(:Series {name: "Mixed"}),(:Series {name: "Open Masters"}),(:Series {name: "Juniors U20"}),(:Series {name: "Mixed Masters"}),(:Series {name: "Juniors U15"}),(:Series {name: "Juniors U16"}),(:Series {name: "Juniors U17"})
 ```
 
 ## Imprt the CSV files
