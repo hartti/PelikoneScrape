@@ -26,7 +26,7 @@ CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
 UNWIND range(1999, 2021) as id
 CREATE (a:Year {id:id})
 
-CREATE (:Season {name: "Indoor", srch: "Talvi"}),(:Season {name: "Outdoor", srch: "Kesä"}),(:Season {name: "Beach", srch: "Beach"}) 
+CREATE (:Season {name: "Indoor", srch: "Talvi"}),(:Season {name: "Outdoor", srch: "Kesä"}),(:Season {name: "Beach", srch: "Ranta"})
 
 CREATE (:Series {name: "Open"}),(:Series {name: "Women"}),(:Series {name: "Mixed"}),(:Series {name: "Open Masters"}),(:Series {name: "Juniors U20"}),(:Series {name: "Mixed Masters"}),(:Series {name: "Juniors U15"}),(:Series {name: "Juniors U16"}),(:Series {name: "Juniors U17"})
 ```
@@ -119,7 +119,21 @@ Connect the teams to certain season node. Note, that this does not connect all t
 MATCH (s:Season), (t:Team) WHERE t.season CONTAINS s.srch
 MERGE (t)-[:PLAYS_IN_SEASON]->(s)
 ```
+Use some manual magic to connect the rest of the teams to seasons
+```
+MATCH (t:Team), (s:Season)
+WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "Juniori" AND s.name = "Outdoor"
+MERGE (t)-[:PLAYS_IN_SEASON]-(s)
 
+MATCH (t:Team), (s:Season)
+WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "Mixed" AND s.name = "Outdoor"
+MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+
+MATCH (t:Team), (s:Season)
+WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "OSM" AND s.name = "Indoor"
+MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+
+```
 # Some interesting queries
 
 Find players, who have represented the most clubs
