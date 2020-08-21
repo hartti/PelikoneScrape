@@ -26,7 +26,7 @@ CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
 UNWIND range(1999, 2021) as id
 CREATE (a:Year {id:id})
 
-CREATE (:Season {name: "Indoor"}),(:Season {name: "Outdoor"}),(:Season {name: "Beach"}) 
+CREATE (:Season {name: "Indoor", srch: "Talvi"}),(:Season {name: "Outdoor", srch: "Kesä"}),(:Season {name: "Beach", srch: "Beach"}) 
 
 CREATE (:Series {name: "Open"}),(:Series {name: "Women"}),(:Series {name: "Mixed"}),(:Series {name: "Open Masters"}),(:Series {name: "Juniors U20"}),(:Series {name: "Mixed Masters"}),(:Series {name: "Juniors U15"}),(:Series {name: "Juniors U16"}),(:Series {name: "Juniors U17"})
 ```
@@ -53,13 +53,6 @@ MATCH (p:Player) WHERE p.id = row[0]
 MERGE (p)-[:PLAYS_FOR]->(t)
 ```
 
-Note, that this approach does not work as the previous CSV imports do not create those
-
-```
-LOAD CSV FROM 'file:///rosters.csv' AS row
-MATCH (t:Team), (p:Player) WHERE t.name = row[3] AND t.season = row[1] AND t.series = row[2] AND p.id = row[0]
-MERGE (p)-[:PLAYS_FOR]->(t)
-```
 ## Clean the database
 
 Delete Clubs with no teams (these are just mistakenly created clubs, wrong spellings etc.)
@@ -104,16 +97,32 @@ DETACH DELETE c
 150 & 117
 ```
 
-Add countries
+## Create additional dependencies
+
+Add countries to teams
 ```
 MATCH (c:Club) WHERE c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia"
 MATCH (c:Club) WHERE c.id IN ["91","174","154"] SET c.country = "Estonia"
 MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia"
 MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland"
 ```
+Connect the teams to certain year node
+
+```
+MATCH (y:Year), (t:Team) WHERE t.season CONTAINS toString(y.id)
+MERGE (t)-[:PLAYS_IN_YEAR]->(y)
+```
+
+Connect the teams to certain season node. Note, that this does not connect all teams (100+ do not contain words Kesä, Talvi or Beach)
+
+```
+MATCH (s:Season), (t:Team) WHERE t.season CONTAINS s.srch
+MERGE (t)-[:PLAYS_IN_SEASON]->(s)
+```
 
 # Some interesting queries
 
 Find players, who have represented the most clubs
+```
 match (p:Player)-[r]-(:Team)--(c:Club) return p.name, count(distinct c) order by count(distinct c) desc limit 10
-
+```
