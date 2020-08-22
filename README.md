@@ -140,3 +140,13 @@ Find players, who have represented the most clubs
 ```
 match (p:Player)-[r]-(:Team)--(c:Club) return p.name, count(distinct c) order by count(distinct c) desc limit 10
 ```
+
+Show all the teams and clubs one player has represented
+```
+match (p:Player)-[r]-(t:Team)-[r2]-(c:Club) where p.name = "Salmela Jasmiina" return p,r,t,r2,c
+```
+
+Show all the players who have played in the same teams as one specific player
+```
+match (p:Player)-[r]-(t:Team)-[r2]-(p2:Player) where p.name = "Kontiainen Olli" return p,r,t,r2,p2
+```
