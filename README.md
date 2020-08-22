@@ -1,20 +1,20 @@
 # PelikoneScrape
 
-## Used Swift packages
+This repository contains the tools and Cypher commands to allow scraping the club, team, player and tournament specific roster data from Pelikone and inserting them into neo4j graph database.
 
-If you are cloning this project you need to add the following two packages to your XCode project
+Liitokiekkoliitto (Finnish Flying Disc Association) has been using Pelikone since 1999 to keep track of all official ultimate tournaments in Finland in all divisions. The db contains about 100 Clubs, 1750+ teams and 2100+ players.
 
-### Theo
-
-https://github.com/Neo4j-Swift/Neo4j-Swift.git
-
-### SwiftSoup
-
-https://github.com/scinfu/SwiftSoup.git
-
-## Usage
-
-First rudimentary version of a scraper to scrape pelikone data to a Neo4J instance
+# Work process
+* Get the csv-files for clubs, teams, players and roster information from this repository, or
+  * Get the Swift app to scrape the data (this repository), add the required Swift packages (SwiftSoup, https://github.com/scinfu/SwiftSoup.git) and compile
+  * Use the tool to first scrape the clubs and teams and then the players (you might need to scrape the players in smaller batches)
+* Create a neo4j database either usinge the neo4j Sandbox or the neo4j Desktop app (recommended)
+* Prep the database - see below (basically create some constraints / indexes, create year-nodes, create season-nodes, create series-nodes
+* Import the raw csv files - see below
+* The data needs to be cleaned a little - see below (consolidate clubs to fix incorrect spellings and such)
+* Work in progress - manually fix missing club data for 74 (current number) teams
+* Create some additional relationships and properties to allow better analysis - see below (country info, tie the teams to years, seasons and series - last part is work in progress)
+* Play with the data and analyze the teams, clubs, players and their relationships - see some examples below
 
 ## Prep Database
 
@@ -118,18 +118,17 @@ MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia"
 MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland"
 ```
 Connect the teams to certain year node
-
 ```
 MATCH (y:Year), (t:Team) WHERE t.season CONTAINS toString(y.id)
 MERGE (t)-[:PLAYS_IN_YEAR]->(y)
 ```
 
 Connect the teams to certain season node. Note, that this does not connect all teams (100+ do not contain words Kesä, Talvi or Beach)
-
 ```
 MATCH (s:Season), (t:Team) WHERE t.season CONTAINS s.srch
 MERGE (t)-[:PLAYS_IN_SEASON]->(s)
 ```
+
 Use some manual magic to connect the rest of the teams to seasons
 ```
 MATCH (t:Team), (s:Season)
