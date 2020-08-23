@@ -142,7 +142,61 @@ MERGE (t)-[:PLAYS_IN_SEASON]-(s)
 MATCH (t:Team), (s:Season)
 WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "OSM" AND s.name = "Indoor"
 MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+```
 
+Use these queries to connect the teams to correct series type (Women, Open, Mixed, Etc). The
+```
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Women" AND t.series CONTAINS "Nais"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Mixed" AND t.series = "Mixed"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Mixed" AND t.series = "Mixed SM"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Mixed Masters" AND t.series = "Mixed Masters"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Open Masters" AND t.series STARTS WITH "Masters"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U15" AND t.series CONTAINS "U15"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U16" AND t.series CONTAINS "U16"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U17" AND t.series CONTAINS "U17"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U20" AND t.series CONTAINS "U20"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U20" AND t.series STARTS WITH "Juniorit" AND NOT (t)-[:PLAYS_IN_SERIES]-(:Series)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U20" AND t.series = "Avoin" AND t.season STARTS WITH "Juniori"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Open" AND t.series STARTS WITH "B-Tour"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Juniors U20" AND t.series = "Avoin U20"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
 ```
 # Some interesting queries
 
