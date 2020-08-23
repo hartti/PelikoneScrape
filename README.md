@@ -197,6 +197,14 @@ MERGE (t)-[:PLAYS_IN_SERIES]->(s)
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U20" AND t.series = "Avoin U20"
 MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Open" AND t.series STARTS WITH "Avoin" AND NOT (t)-[:PLAYS_IN_SERIES]-(:Series)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+
+MATCH (t:Team), (s:Series)
+WHERE s.name = "Mixed" AND t.series = "SM Ranta"
+MERGE (t)-[:PLAYS_IN_SERIES]->(s)
 ```
 # Some interesting queries
 
