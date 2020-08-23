@@ -222,3 +222,10 @@ Show all the players who have played in the same teams as one specific player
 ```
 match (p:Player)-[r]-(t:Team)-[r2]-(p2:Player) where p.name = "Kontiainen Olli" return p,r,t,r2,p2
 ```
+
+Find players who have played in teams in most series out of Open, Women and Mixed
+```
+match (p:Player)-[]-(:Team)-[]-(s:Series)
+where s.name in ["Open","Mixed","Women"]
+return p.name, p.altName, count(distinct s) as cnt order by cnt desc, p.name asc limit 100
+```
