@@ -62,10 +62,8 @@ WHERE NOT (c)-[:BELONGS_TO]-(:Team)
 DETACH DELETE c
 ```
 
-Execute the following query for all number pairs listed below. This consolidates the same clubs created with different names.
+Execute the following query. This consolidates the same clubs created with different names.
 ```
-Ketterämpi versio?
-
 UNWIND [["172","5"],["77","70"],["82","160"],["21","160"],["14","160"],["111","96"],["169","58"],
 ["121","58"],["74","37"],["104","37"],["173","113"],["107","114"],["163","114"],["168","141"],
 ["126","46"],["18","108"],["159","144"],["166","144"],["112","144"],["109","91"],["122","91"],
@@ -81,6 +79,7 @@ WITH t, c, c2
 MERGE (t)-[:BELONGS_TO]->(c2)
 DETACH DELETE c
 
+(172 & 5)
 77 & 70
 82 & 160
 21 & 160
@@ -206,7 +205,13 @@ MATCH (t:Team), (s:Series)
 WHERE s.name = "Mixed" AND t.series = "SM Ranta"
 MERGE (t)-[:PLAYS_IN_SERIES]->(s)
 ```
+
 # Some interesting queries
+
+Naturally, you can se the database schema with this command
+```
+CALL db.schema.visualization
+```
 
 Find players, who have represented the most clubs
 ```
@@ -228,4 +233,11 @@ Find players who have played in teams in most series out of Open, Women and Mixe
 match (p:Player)-[]-(:Team)-[]-(s:Series)
 where s.name in ["Open","Mixed","Women"]
 return p.name, p.altName, count(distinct s) as cnt order by cnt desc, p.name asc limit 100
+```
+
+List the number of players each year, who played in Open or Women's series either indoor or outdoor. (Note, that query provides the most consistent view of the change in number of players year on year, as both series have been organized every year and all the games and teams are registered in Pelikone. The inclusion of especially teh junior divisions woudl create data problems, as in some years there are no junior games recorded in Pelikone, even though the games were organized. And in some years there are only Junior division finals available in Pelikone.)
+```
+match (p:Player)-[]-(t:Team)-[]-(y:Year), (t)-[]-(s:Season), (t)-[]-(r:Series)
+where s.name in ["Outdoor", "Indoor"] and r.name in ["Open", "Women"]
+return count(distinct p),y.id order by y.id asc
 ```
