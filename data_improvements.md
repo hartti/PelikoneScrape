@@ -21,43 +21,42 @@ There are small number of players, who might have mixed identities in the system
 
 ### Consistent series naming and categories
 
-Currently different series category naming conventions are used. Also in some cases the category information is split between the category and series name.
+Currently different series category naming conventions are used. Also in some cases the category information is split between the category and series name. 
 
 ### Consolidate duplicate clubs and remove "childless" clubs
 
 There are currently a number of clubs, which do not have any teams representing them. These are likely clubs which have been originally created as duplicates through a mistake and then the representing team is moved to already exiting club. These could be either deleted from the database, or just not displayed in the page listing all clubs.
 Number of such childless teams: TO BE DETERMINED
 
-Additionally there are duplicate clubs entities for a number of clubs. The following list
+Additionally there are duplicate clubs entities for a number of clubs. The following list contains club ids which can be merged with the second id (meaning that the teams blenging to the first club can be moved to point to the second club).
+* 172 -> 5
+* 77 -> 70
+* 82 -> 160
+* 21 -> 160
+* 14 -> 160
+* 111 -> 96
+* 169 -> 58
+* 121 -> 58
+* 74 -> 37
+* 104 -> 37
+* 173 -> 113
+* 107 -> 114
+* 163 -> 114
+* 168 -> 141
+* 126 -> 46
+* 18 -> 108
+* 159 -> 144
+* 166 -> 144
+* 112 -> 144
+* 109 -> 91
+* 122 -> 91
+* 119 -> 91
+* 161 -> 17
+* 118 -> 90
+* 162 -> 90
+* 150 -> 117
 
-172 & 5
-77 & 70
-82 & 160
-21 & 160
-14 & 160
-111 & 96
-169 & 58
-121 & 58
-74 & 37
-104 & 37
-173 & 113
-107 & 114
-163 & 114
-168 & 141
-126 & 46
-18 & 108
-159 & 144
-166 & 144
-112 & 144
-109 & 91
-122 & 91
-119 & 91
-161 & 17
-118 & 90
-162 & 90
-150 & 117
-
-After consolidating these teams / clubs, the newly created childless clubs (no teams representing them) could be deleted or then not shown on the club listing pages
+After consolidating these teams / clubs, the newly created childless clubs (no teams representing them) could be deleted or alternatively they should not be shown on the club listing pages.
 
 ### Add country & city information on all clubs
 
