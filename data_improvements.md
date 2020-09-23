@@ -19,9 +19,14 @@ There are small number of players, who might have mixed identities in the system
 
 ### Incorrent and incomplete final standings
 
-There are number of years & series, for which there is no proper final standings list. As one example, there are no final standings for Summer 2018 (and others) because of the tournament format. You can only find the final placings for finals event and for the separate tour events, like 2018 Finals https://www.ultimate.fi/pelikone/?view=teams&season=2018.F&list=bystandings , Tour 3 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T3&list=bystandings , Tour 2 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T2&list=bystandings and Tour 1 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T1&list=bystandings
+There are number of years & series, for which there is no proper final standings list. As one example, there are no final standings for Summer 2018 (and others) because of the tournament format. You can only find the final placings for finals event and for the separate tour events, like
+* 2018 Finals https://www.ultimate.fi/pelikone/?view=teams&season=2018.F&list=bystandings
+* Tour 3 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T3&list=bystandings
+* Tour 2 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T2&list=bystandings
+* Tour 1 https://www.ultimate.fi/pelikone/?view=teams&season=2018.T1&list=bystandings
 
-In other cases, the placings contain additional teams as the finals teams have been given new names like A3, A4 or the teams are created in the system just for finals with the existing name. One example from year 2001 outdoor season is here https://www.ultimate.fi/pelikone/?view=teams&season=2001.1&list=bystandings
+In other cases, the placings contain additional teams as the finals teams have been given new names like A3, A4 or the teams are created in the system just for finals with the existing name. One example
+* 2001 outdoor season is here https://www.ultimate.fi/pelikone/?view=teams&season=2001.1&list=bystandings
 
 ## Suggested data improvements
 
@@ -33,7 +38,19 @@ Currently different series category naming conventions are used. Also in some ca
 
 There are currently a number of clubs, which do not have any teams representing them. These are likely clubs which have been originally created as duplicates through a mistake and then the representing team is moved to already exiting club. These could be either deleted from the database, or just not displayed in the page listing all clubs.
 
-Number of such childless teams: TO BE DETERMINED
+Number of such clubs with not connected teams is 12. Below is a listing of those clubs:
+* EUC, 138
+* Lempäälän Kisa ry, 60
+* Nallet, 151
+* PKV, 142
+* TUrVoKe ry, 158
+* Tallinn Thunder, 153
+* UFO, 136
+* UFOUnlimited Frisbee Organization ry, 139
+* Ufo ry, 171
+* Ultimate Saku, 154
+* Vaasa Saints, 137
+* VirHe, 149
 
 Additionally there are duplicate clubs entities for a number of clubs. The following list contains club ids which can be merged with the second id (meaning that the teams blenging to the first club can be moved to point to the second club).
 * 172 -> 5
@@ -71,7 +88,7 @@ The country information is not available for most of the Finnish clubs and there
 * Russia 146, 97, 98, 155, 157, 94, 96, 123, 125, 156 , 124, 177, 105, 110
 * Estonia 91, 174, 154
 * Latvia 141
-Rest of the clubs are from Finland.
+* Rest of the clubs are from Finland.
 
 ### Add a parent club for all teams
 
