@@ -19,38 +19,38 @@ Liitokiekkoliitto (Finnish Flying Disc Association) has been using Pelikone sinc
 ## Prep Database
 
 ```
-CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE
-CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE
-CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE
+CREATE CONSTRAINT ON (t:Team) ASSERT t.id IS UNIQUE;
+CREATE CONSTRAINT ON (c:Club) ASSERT c.id IS UNIQUE;
+CREATE CONSTRAINT ON (p:Player) ASSERT p.id IS UNIQUE;
 
 UNWIND range(1999, 2021) as id
-CREATE (a:Year {id:id})
+CREATE (a:Year {id:id});
 
-CREATE (:Season {name: "Indoor", srch: "Talvi"}),(:Season {name: "Outdoor", srch: "Kesä"}),(:Season {name: "Beach", srch: "Ranta"})
+CREATE (:Season {name: "Indoor", srch: "Talvi"}),(:Season {name: "Outdoor", srch: "Kesä"}),(:Season {name: "Beach", srch: "Ranta"});
 
-CREATE (:Series {name: "Open"}),(:Series {name: "Women"}),(:Series {name: "Mixed"}),(:Series {name: "Open Masters"}),(:Series {name: "Juniors U20"}),(:Series {name: "Mixed Masters"}),(:Series {name: "Juniors U15"}),(:Series {name: "Juniors U16"}),(:Series {name: "Juniors U17"})
+CREATE (:Series {name: "Open"}),(:Series {name: "Women"}),(:Series {name: "Mixed"}),(:Series {name: "Open Masters"}),(:Series {name: "Juniors U20"}),(:Series {name: "Mixed Masters"}),(:Series {name: "Juniors U15"}),(:Series {name: "Juniors U16"}),(:Series {name: "Juniors U17"});
 ```
 
 ## Imprt the CSV files
 
 ```
 LOAD CSV FROM 'file:///clubs.csv' AS row
-MERGE (c:Club {name: row[0], id: row[1], url: row[2]})
+MERGE (c:Club {name: row[0], id: row[1], url: row[2]});
 
 LOAD CSV FROM 'file:///teams.csv' AS row
 MERGE (t:Team {name: row[0], season: row[1], series: row[2], id: row[3], url: row[4]})
 WITH row, t
 MATCH (c:Club) WHERE c.id = row[5]
-MERGE (t)-[:BELONGS_TO]->(c)
+MERGE (t)-[:BELONGS_TO]->(c);
 
 LOAD CSV FROM 'file:///players.csv' AS row
-MERGE (p:Player {name: row[0], altName: row[1], id: row[2], url: row[3]})
+MERGE (p:Player {name: row[0], altName: row[1], id: row[2], url: row[3]});
 
 LOAD CSV FROM 'file:///rosters.csv' AS row
 MERGE (t:Team {name: row[3], season: row[1], series: row[2]})
 WITH t, row
 MATCH (p:Player) WHERE p.id = row[0]
-MERGE (p)-[:PLAYS_FOR]->(t)
+MERGE (p)-[:PLAYS_FOR]->(t);
 ```
 
 ## Clean the database
@@ -59,7 +59,7 @@ Delete Clubs with no teams (these are just mistakenly created clubs, wrong spell
 ```
 MATCH (c:Club)
 WHERE NOT (c)-[:BELONGS_TO]-(:Team)
-DETACH DELETE c
+DETACH DELETE c;
 ```
 
 Execute the following query. This consolidates the same clubs created with different names.
@@ -71,7 +71,7 @@ UNWIND [["172","5"],["77","70"],["82","160"],["21","160"],["14","160"],["111","9
 MATCH (t:Team)-[]->(c:Club), (c2:Club) WHERE c.id = row[0] AND c2.id = row[1]
 WITH t, c, c2
 MERGE (t)-[:BELONGS_TO]->(c2)
-DETACH DELETE c
+DETACH DELETE c;
 
 MATCH (t:Team)-[]->(c:Club) WHERE c.id = "172"
 MATCH (c2:Club) WHERE c2.id = "5"

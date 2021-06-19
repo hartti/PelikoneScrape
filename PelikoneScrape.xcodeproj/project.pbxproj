@@ -12,8 +12,8 @@
 		EB2081FF24C476B100E59809 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB2081FE24C476B100E59809 /* Assets.xcassets */; };
 		EB20820224C476B100E59809 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB20820124C476B100E59809 /* Preview Assets.xcassets */; };
 		EB20820524C476B100E59809 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB20820324C476B100E59809 /* Main.storyboard */; };
-		EB20820F24C4770C00E59809 /* Theo in Frameworks */ = {isa = PBXBuildFile; productRef = EB20820E24C4770C00E59809 /* Theo */; };
 		EB20821224C4772B00E59809 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = EB20821124C4772B00E59809 /* SwiftSoup */; };
+		EB9B5595267D935600095563 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EB9B5594267D935600095563 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +25,7 @@
 		EB20820424C476B100E59809 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB20820624C476B100E59809 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB20820724C476B100E59809 /* PelikoneScrape.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PelikoneScrape.entitlements; sourceTree = "<group>"; };
+		EB9B5594267D935600095563 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +33,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB20820F24C4770C00E59809 /* Theo in Frameworks */,
 				EB20821224C4772B00E59809 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,6 +59,7 @@
 		EB2081F924C476AE00E59809 /* PelikoneScrape */ = {
 			isa = PBXGroup;
 			children = (
+				EB9B5594267D935600095563 /* README.md */,
 				EB2081FA24C476AE00E59809 /* AppDelegate.swift */,
 				EB2081FC24C476AE00E59809 /* ContentView.swift */,
 				EB2081FE24C476B100E59809 /* Assets.xcassets */,
@@ -95,7 +96,6 @@
 			);
 			name = PelikoneScrape;
 			packageProductDependencies = (
-				EB20820E24C4770C00E59809 /* Theo */,
 				EB20821124C4772B00E59809 /* SwiftSoup */,
 			);
 			productName = PelikoneScrape;
@@ -127,7 +127,6 @@
 			);
 			mainGroup = EB2081EE24C476AE00E59809;
 			packageReferences = (
-				EB20820D24C4770C00E59809 /* XCRemoteSwiftPackageReference "Neo4j-Swift" */,
 				EB20821024C4772B00E59809 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = EB2081F824C476AE00E59809 /* Products */;
@@ -146,6 +145,7 @@
 			files = (
 				EB20820524C476B100E59809 /* Main.storyboard in Resources */,
 				EB20820224C476B100E59809 /* Preview Assets.xcassets in Resources */,
+				EB9B5595267D935600095563 /* README.md in Resources */,
 				EB2081FF24C476B100E59809 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,14 +359,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EB20820D24C4770C00E59809 /* XCRemoteSwiftPackageReference "Neo4j-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Neo4j-Swift/Neo4j-Swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
-			};
-		};
 		EB20821024C4772B00E59809 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -378,11 +370,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EB20820E24C4770C00E59809 /* Theo */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EB20820D24C4770C00E59809 /* XCRemoteSwiftPackageReference "Neo4j-Swift" */;
-			productName = Theo;
-		};
 		EB20821124C4772B00E59809 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EB20821024C4772B00E59809 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
