@@ -67,54 +67,21 @@ Execute the following query. This consolidates the same clubs created with diffe
 UNWIND [["172","5"],["77","70"],["82","160"],["21","160"],["14","160"],["111","96"],["169","58"],
 ["121","58"],["74","37"],["104","37"],["173","113"],["107","114"],["163","114"],["168","141"],
 ["126","46"],["18","108"],["159","144"],["166","144"],["112","144"],["109","91"],["122","91"],
-["119","91"],["161","17"],["118","90"],["162","90"],["150","117"]]
+["119","91"],["161","17"],["118","90"],["162","90"],["150","117"]] AS row
 MATCH (t:Team)-[]->(c:Club), (c2:Club) WHERE c.id = row[0] AND c2.id = row[1]
 WITH t, c, c2
 MERGE (t)-[:BELONGS_TO]->(c2)
 DETACH DELETE c;
-
-MATCH (t:Team)-[]->(c:Club) WHERE c.id = "172"
-MATCH (c2:Club) WHERE c2.id = "5"
-WITH t, c, c2
-MERGE (t)-[:BELONGS_TO]->(c2)
-DETACH DELETE c
-
-(172 & 5)
-77 & 70
-82 & 160
-21 & 160
-14 & 160
-111 & 96
-169 & 58
-121 & 58
-74 & 37
-104 & 37
-173 & 113
-107 & 114
-163 & 114
-168 & 141
-126 & 46
-18 & 108
-159 & 144
-166 & 144
-112 & 144
-109 & 91
-122 & 91
-119 & 91
-161 & 17
-118 & 90
-162 & 90
-150 & 117
 ```
 
 ## Create additional dependencies
 
 Add countries to teams
 ```
-MATCH (c:Club) WHERE c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia"
-MATCH (c:Club) WHERE c.id IN ["91","174","154"] SET c.country = "Estonia"
-MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia"
-MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland"
+MATCH (c:Club) WHERE c.id IN ["146","97","98","155","157","94","96","123","125","156","124","177","105","110"] SET c.country = "Russia";
+MATCH (c:Club) WHERE c.id IN ["91","174","154"] SET c.country = "Estonia";
+MATCH (c:Club) WHERE c.id IN ["141"] SET c.country = "Latvia";
+MATCH (c:Club) WHERE NOT EXISTS(c.country) SET c.country = "Finland";
 ```
 Connect the teams to certain year node
 ```
@@ -132,78 +99,78 @@ Use some manual magic to connect the rest of the teams to seasons
 ```
 MATCH (t:Team), (s:Season)
 WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "Juniori" AND s.name = "Outdoor"
-MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+MERGE (t)-[:PLAYS_IN_SEASON]-(s);
 
 MATCH (t:Team), (s:Season)
 WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "Mixed" AND s.name = "Outdoor"
-MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+MERGE (t)-[:PLAYS_IN_SEASON]-(s);
 
 MATCH (t:Team), (s:Season)
 WHERE NOT (t:Team)-[:PLAYS_IN_SEASON]-() AND t.season CONTAINS "OSM" AND s.name = "Indoor"
-MERGE (t)-[:PLAYS_IN_SEASON]-(s)
+MERGE (t)-[:PLAYS_IN_SEASON]-(s);
 ```
 
 Use these queries to connect the teams to correct series type (Women, Open, Mixed, Etc). The
 ```
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Women" AND t.series CONTAINS "Nais"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Mixed" AND t.series = "Mixed"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Mixed" AND t.series = "Mixed SM"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Mixed Masters" AND t.series = "Mixed Masters"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Open Masters" AND t.series STARTS WITH "Masters"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U15" AND t.series CONTAINS "U15"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U16" AND t.series CONTAINS "U16"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U17" AND t.series CONTAINS "U17"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U20" AND t.series CONTAINS "U20"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U20" AND t.series STARTS WITH "Juniorit" AND NOT (t)-[:PLAYS_IN_SERIES]-(:Series)
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U20" AND t.series = "Avoin" AND t.season STARTS WITH "Juniori"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Open" AND t.series STARTS WITH "B-Tour"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Juniors U20" AND t.series = "Avoin U20"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Open" AND t.series STARTS WITH "Avoin" AND NOT (t)-[:PLAYS_IN_SERIES]-(:Series)
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 
 MATCH (t:Team), (s:Series)
 WHERE s.name = "Mixed" AND t.series = "SM Ranta"
-MERGE (t)-[:PLAYS_IN_SERIES]->(s)
+MERGE (t)-[:PLAYS_IN_SERIES]->(s);
 ```
 
 # Some interesting queries
