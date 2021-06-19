@@ -31,8 +31,6 @@ struct ContentView: View {
     
     private var startTime = Date()
     
-    @State private var scrapeDisabled = false        // true by default, turns on when connection is available
-    
     var body: some View {
         HStack {
             VStack {
@@ -66,12 +64,10 @@ struct ContentView: View {
                     self.startClubAndTeamScrape()
                     // self.scrapeTeamsForClub(clubUrl: self.pelikoneBaseUrl + "?view=clubcard&club=5", clubNode: nil)
                 }
-                .disabled(scrapeDisabled)
                 Button("2. Scrape Players") {
                     // scrape utilizing Team data already in the db, Clubs and Teams have been scraped
                     self.startPlayerScrape()
                 }
-                .disabled(scrapeDisabled)
             }
             .padding()
             VStack {
